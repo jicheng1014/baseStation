@@ -1,4 +1,5 @@
 BaseStation::Application.routes.draw do
+  get "placemark/import"
   get "welcome/index"
   resources :stations
 

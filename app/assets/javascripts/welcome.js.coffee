@@ -2,9 +2,35 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 #
+new_modal= ()->
+  $('#myModal').modal(keyboard: false)
+ 
+loadPointToModal = (point) ->
+  $('#station_name').val()
 
+map = null
+click = (e)-> 
+  
+  # 先把值读给modal里的坐标
+  $("#station_lat").val(e.point.lat)
+  $("#station_lng").val(e.point.lng)
+
+  point = new BMap.Point(e.point.lng, e.point.lat)
+  marker = new BMap.Marker(point)
+  map.addOverlay(marker)
+  infoWindow = new BMap.InfoWindow("<button onclick='$(\"#myModal\").modal()' class='add_modal'>新建节点</button>")
+  marker.openInfoWindow(infoWindow)
+  infoWindow.enableCloseOnClick()
+  infoWindow.addEventListener("close",(type,t,point) ->
+    map.removeOverlay(marker)
+  )
+
+  false
+
+
+ 
 ready = -> 
-  #c.style.height = p.clientHeight - a.clientHeight - b.clientHeight +"px";
+  # calculate the height of this page
   h1_height = $("#welcome_h1").outerHeight(true);
   parent = $("#map_div").parent()
   $("#map_div").height(parent.height()  - h1_height)
@@ -15,9 +41,10 @@ ready = ->
   map.addControl(new BMap.OverviewMapControl()) 
   map.enableScrollWheelZoom()  
   map.addControl(new BMap.MapTypeControl())     
-  map.centerAndZoom("重庆",13)
+  map.centerAndZoom(new BMap.Point(106.539,29.548),13)
+  map.addEventListener("click", click);
+
 
 
 
 $(document).ready(ready)
-$(document).on('page:load', ready)

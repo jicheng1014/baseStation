@@ -1,43 +1,70 @@
-<%= form_for(@station) do |f| %>
+<%= form_for(@station,remote: true,html:{class:"form-horizontal"}) do |f| %>
   <% if @station.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@station.errors.count, "error") %> prohibited this station from being saved:</h2>
 
       <ul>
-      <% @station.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @station.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+
+  <div class="form-group">
+
+    <%= f.label :name ,"名称",class:"control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= f.text_field :name ,class:'form-control' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :pos_type %><br />
-    <%= f.text_field :pos_type %>
+
+  <div class="form-group">
+
+    <%= f.label :pos_type, "坐标类型",class:'control-label col-sm-2'%>
+    <div class="col-sm-10">
+      <%= f.text_field :pos_type, class:'form-control' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :lat %><br>
-    <%= f.text_field :lat %>
+  <div class="form-group">
+    <%= f.label :lat,"纬度", class:"control-label col-sm-2" %>
+    <div class="col-sm-10">
+
+      <%= f.text_field :lat ,class:'form-control' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :lng %><br>
-    <%= f.text_field :lng %>
+
+  <div class="form-group">
+    <%= f.label :lng ,"经度", class:"control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= f.text_field :lng, class:"form-control" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
+
+
+  <div class="form-group">
+
+    <%= f.label :description,"描述", class:"control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= f.text_area :description, class:"form-control" %>    
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :markup %><br>
-    <%= f.text_area :markup %>
+
+  <div class="form-group">
+    <%= f.label :markup, "备注",class:"control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= f.text_area :markup, class:"form-control" %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit %>
+
+
+    </div>
   </div>
 <% end %>

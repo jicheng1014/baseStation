@@ -7,6 +7,11 @@ class StationsController < ApplicationController
     @stations = Station.all
   end
 
+  def search
+    @stations = Station.all
+    render json: @stations
+  end
+
   # GET /stations/1
   # GET /stations/1.json
   def show
@@ -29,9 +34,13 @@ class StationsController < ApplicationController
     respond_to do |format|
       if @station.save
         format.html { redirect_to @station, notice: 'Station was successfully created.' }
+
+        format.js
+
         format.json { render action: 'show', status: :created, location: @station }
       else
         format.html { render action: 'new' }
+        format.js
         format.json { render json: @station.errors, status: :unprocessable_entity }
       end
     end

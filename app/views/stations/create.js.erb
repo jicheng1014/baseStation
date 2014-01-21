@@ -1,0 +1,6 @@
+$("#new_station").remove();
+<% if @station.errors.any? %>
+  $("#new_link").after('<%= j render 'form' %>') 
+<% else %>  
+$("#new_link").show();
+<% end %>

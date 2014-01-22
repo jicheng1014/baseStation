@@ -26,6 +26,14 @@ click = (e)->
   )
   false
 
+
+build_list=(stations)->
+  builder = ''
+  for node in stations
+    builder += "<li><a data-remote='true' href='/stations/#{node.id}'>#{node.name}</a></li>"
+  $("#station_list").empty().append(builder).css("max_height",500)
+
+
 show_stations_data = (stations) -> 
   map.clearOverlays()
   if stations.length>150 
@@ -34,10 +42,12 @@ show_stations_data = (stations) ->
     label.setPosition(point)
     map.addOverlay(label)
   else
+    build_list(stations)
     for node in stations 
       point = new BMap.Point(node.lng,node.lat)
       marker = new BMap.Marker(point)
       label = new BMap.Label(node.name, {offset: new BMap.Size(20, 4)})
+
       marker.setLabel(label)
       map.addOverlay(marker)
 

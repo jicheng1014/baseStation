@@ -13,7 +13,18 @@
       </div>
 
       <div class="panel-body">
-        <%= link_to "新建节点地址", stations_path %>
+        <%= link_to "新建节点地址", stations_path,remote:true %>
+
+
+      </div>
+
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+       屏幕处节点 
+      </div>
+
+      <div class="panel-body" style="height:340px;overflow:auto" id="station_list">
 
       </div>
 

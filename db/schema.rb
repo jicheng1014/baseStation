@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114110813) do
+ActiveRecord::Schema.define(version: 20140122081510) do
 
   create_table "stations", force: true do |t|
     t.string   "name"
@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(version: 20140114110813) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "pos_type"
+    t.float    "baidu_lng"
+    t.float    "baidu_lat"
+    t.string   "translated"
   end
 
 end

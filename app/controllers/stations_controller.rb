@@ -4,7 +4,11 @@ class StationsController < ApplicationController
   # GET /stations
   # GET /stations.json
   def index
-    @stations = Station.all
+    if params['min_lng'].nil? 
+      @stations = Station.all
+    else
+      render json: Station.where(baidu_lng: params['min_lng'] .. params['max_lng'],baidu_lat:params['min_lat']..params['max_lat']).map { |e| {id:e.id,lat:e.baidu_lat,lng:e.baidu_lng,name:e.name}   }
+    end
   end
 
   def search

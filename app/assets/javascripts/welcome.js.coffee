@@ -26,6 +26,34 @@ click = (e)->
   )
   false
 
+show_stations_data = (stations) -> 
+  map.clearOverlays()
+  if stations.length>150 
+    point = map.getCenter()     
+    label = new BMap.Label("地图间有#{stations.length}个点，超出限制，放大地图后可查看")
+    label.setPosition(point)
+    map.addOverlay(label)
+  else
+    for node in stations 
+      point = new BMap.Point(node.lng,node.lat)
+      marker = new BMap.Marker(point)
+      label = new BMap.Label(node.name, {offset: new BMap.Size(20, 4)})
+      marker.setLabel(label)
+      map.addOverlay(marker)
+
+
+load_points = ->
+  bounds = map.getBounds()
+  min_lat = [bounds.getSouthWest().lat]
+  min_lng = [bounds.getSouthWest().lng]
+
+  max_lat = [bounds.getNorthEast().lat]
+  max_lng = [bounds.getNorthEast().lng]
+  
+  $.getJSON("/stations",{min_lat,min_lng,max_lat,max_lng},(stations)->
+    show_stations_data(stations)
+  )
+
 
 ready = -> 
   # calculate the height of this page
@@ -40,14 +68,11 @@ ready = ->
   map.enableScrollWheelZoom()  
   map.addControl(new BMap.MapTypeControl())     
   map.centerAndZoom(new BMap.Point(106.539,29.548),13)
+  map.addEventListener("moveend",load_points)
+  map.addEventListener("zoomend",load_points)
   map.addEventListener("click", click);
-
+  load_points()
+ 
   
-
-
-  for node in idata 
-    point = new BMap.Point(node.lng,node.lat)
-    marker = new BMap.Marker(point)
-    map.addOverlay(marker)
 
 $(document).ready(ready)

@@ -23,7 +23,7 @@ class PlacemarkController < ApplicationController
 
     if Station.count == 0
       @stations.each do |item|
-        item.save
+        item.save!
       end
     end
     redirect_to stations_path, notice:"ererf"

@@ -40,6 +40,9 @@
   </div>
 </div>
 
-<div class="operation_div">
-  新建节点
-</div>
+
+<% content_for :header do %>
+  <script type="text/javascript" charset="utf-8">
+    var idata = <%= raw @stations.to_json %>;
+  </script>
+<% end %>

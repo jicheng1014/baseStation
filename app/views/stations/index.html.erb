@@ -16,6 +16,8 @@
       <th>Name</th>
       <th>Lat</th>
       <th>Lng</th>
+      <th>baidu_lat</th>
+      <th>baidu_lng</th>
       <th>Description</th>
       <th>Markup</th>
       <th></th>
@@ -30,6 +32,8 @@
         <td><%= station.name %></td>
         <td><%= station.lat %></td>
         <td><%= station.lng %></td>
+        <td><%= station.baidu_lat %></td>
+        <td><%= station.baidu_lng %></td>
         <td><%= station.description %></td>
         <td><%= station.markup %></td>
         <td><%= link_to 'Show', station %></td>
@@ -40,6 +44,7 @@
   </tbody>
 </table>
 
+<%= will_paginate @stations %>
 <br>
 
 <%= link_to 'New Station', new_station_path,id:"new_link", remote:true %>

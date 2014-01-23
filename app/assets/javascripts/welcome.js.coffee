@@ -3,21 +3,15 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 #
 
-#单击新建节点后弹出的新建节点信息的事件实现
-new_modal= ()->
-  $('#myModal').modal(keyboard: false)
- 
-loadPointToModal = (point) ->
-  $('#station_name').val()
 
-map = null
+window.map = null
 circle = null
 
 # 单击地图的事件实现函数
 click = (e)-> 
   # 先把值读给modal里的坐标
-  $("#station_lat").val(e.point.lat)
-  $("#station_lng").val(e.point.lng)
+  $("#station_baidu_lat").val(e.point.lat)
+  $("#station_baidu_lng").val(e.point.lng)
 
   point = new BMap.Point(e.point.lng, e.point.lat)
   marker = new BMap.Marker(point)
@@ -40,32 +34,32 @@ build_list=(stations)->
     lng = $(this).attr "lng"
     lat = $(this).attr "lat"
     point = new BMap.Point(lng,lat)
-    map.removeOverlay(circle)
+    window.map.removeOverlay(circle)
     circle = new BMap.Circle(point,50);
-    map.addOverlay(circle)
+    window.map.addOverlay(circle)
 
 
 # 将传进来的station参数显示在地图上以及新建右侧的节点信息
 show_stations_data = (stations) -> 
-  map.clearOverlays()
+  window.map.clearOverlays()
   if stations.length>150 
-    point = map.getCenter()     
+    point = window.map.getCenter()     
     label = new BMap.Label("地图间有#{stations.length}个点，超出限制，放大地图后可查看")
     label.setPosition(point)
-    map.addOverlay(label)
+    window.map.addOverlay(label)
   else
     build_list(stations)
-    map.addOverlay(circle)
+    window.map.addOverlay(circle)
     for node in stations 
       point = new BMap.Point(node.lng,node.lat)
       marker = new BMap.Marker(point)
       label = new BMap.Label(node.name, {offset: new BMap.Size(20, 4)})
       marker.setLabel(label)
-      map.addOverlay(marker)
+      window.map.addOverlay(marker)
 
 
 load_points = ->
-  bounds = map.getBounds()
+  bounds = window.map.getBounds()
   min_lat = [bounds.getSouthWest().lat]
   min_lng = [bounds.getSouthWest().lng]
 
@@ -83,16 +77,16 @@ ready = ->
   parent = $("#map_div").parent()
   $("#map_div").height(parent.height()  - h1_height)
 
-  map = new BMap.Map("map")
-  map.addControl(new BMap.NavigationControl())  
-  map.addControl(new BMap.ScaleControl())  
-  map.addControl(new BMap.OverviewMapControl()) 
-  map.enableScrollWheelZoom()  
-  map.addControl(new BMap.MapTypeControl())     
-  map.centerAndZoom(new BMap.Point(106.539,29.548),13)
-  map.addEventListener("moveend",load_points)
-  map.addEventListener("zoomend",load_points)
-  map.addEventListener("click", click);
+  window.map = new BMap.Map("map")
+  window.map.addControl(new BMap.NavigationControl())  
+  window.map.addControl(new BMap.ScaleControl())  
+  window.map.addControl(new BMap.OverviewMapControl()) 
+  window.map.enableScrollWheelZoom()  
+  window.map.addControl(new BMap.MapTypeControl())     
+  window.map.centerAndZoom(new BMap.Point(106.539,29.548),13)
+  window.map.addEventListener("moveend",load_points)
+  window.map.addEventListener("zoomend",load_points)
+  window.map.addEventListener("click", click);
   
   load_points()
 
@@ -101,17 +95,15 @@ ready = ->
     minLength: 3,
     select: (event,ui ) ->
       $.getJSON('stations/search_by_name',{name:$('#name_search').val()},(obj)->
-        
-        map.setZoom(17)
-        map.setCenter(new BMap.Point(obj.baidu_lng,obj.baidu_lat))
+        window.map.setZoom(17)
+        window.map.setCenter(new BMap.Point(obj.baidu_lng,obj.baidu_lat))
         node = obj
         point = new BMap.Point(node.baidu_lng,node.baidu_lat)
 
         circle = new BMap.Circle(point,50);
 
-        map.addOverlay(circle)
+        window.map.addOverlay(circle)
       )
-
   )
  
   

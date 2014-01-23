@@ -25,30 +25,47 @@
 
     <%= f.label :pos_type, "坐标类型",class:'control-label col-sm-2'%>
     <div class="col-sm-10">
-      <%= f.text_field :pos_type, class:'form-control' %>
+      <%= f.select :pos_type, [["百度坐标",'baidu_geo'],["GPS设备采集",'gps']], {},{class:"form-control",id:"select_pos_type_list",onchange:"change(this);"}%>
+      <p class="">注意，百度坐标和GPS坐标相互之间有一定偏移，若为设备采集坐标，请选择GPS设备采集</p>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :lat,"纬度", class:"control-label col-sm-2" %>
-    <div class="col-sm-10">
+  <div class="gps_pos_div">
+    <div class="form-group">
+      <%= f.label :lat,"纬度", class:"control-label col-sm-2" %>
+      <div class="col-sm-10">
+        <%= f.text_field :lat ,class:'form-control' %>
+      </div>
+    </div>
 
-      <%= f.text_field :lat ,class:'form-control' %>
+    <div class="form-group">
+      <%= f.label :lng ,"经度", class:"control-label col-sm-2" %>
+      <div class="col-sm-10">
+        <%= f.text_field :lng, class:"form-control" %>
+      </div>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :lng ,"经度", class:"control-label col-sm-2" %>
-    <div class="col-sm-10">
-      <%= f.text_field :lng, class:"form-control" %>
+  <div class="baidu_pos_div">
+    <div class="form-group">
+      <%= f.label :lat,"百度纬度", class:"control-label col-sm-2" %>
+      <div class="col-sm-10">
+        <%= f.text_field :baidu_lat ,class:'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :lng ,"百度经度", class:"control-label col-sm-2" %>
+      <div class="col-sm-10">
+        <%= f.text_field :baidu_lng, class:"form-control" %>
+      </div>
     </div>
   </div>
 
+<div class="form-group">
 
-  <div class="form-group">
-
-    <%= f.label :description,"描述", class:"control-label col-sm-2" %>
-    <div class="col-sm-10">
+  <%= f.label :description,"描述", class:"control-label col-sm-2" %>
+  <div class="col-sm-10">
       <%= f.text_area :description, class:"form-control" %>    
     </div>
   </div>
@@ -68,3 +85,28 @@
     </div>
   </div>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+  function switch_pos(){
+    if("<%= @station.pos_type %>"=="gps"){
+      $(".baidu_pos_div").hide();
+    }
+    else{
+      $(".gps_pos_div").hide();
+    }
+  }
+  switch_pos();
+  
+function change(obj){
+      if ($(obj).val() == "gps"){
+        $(".baidu_pos_div").hide();
+        $(".gps_pos_div").show();
+      }else{
+        $(".gps_pos_div").hide();
+        $(".baidu_pos_div").show();
+      }
+  }
+
+  
+</script>
+

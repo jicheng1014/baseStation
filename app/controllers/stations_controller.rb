@@ -5,7 +5,7 @@ class StationsController < ApplicationController
   # GET /stations.json
   def index
     if params['min_lng'].nil? 
-      @stations = Station.all
+      @stations = Station.all.paginate(page:params[:page])
     else
       render json: Station.where(baidu_lng: params['min_lng'] .. params['max_lng'],baidu_lat:params['min_lat']..params['max_lat']).map { |e| {id:e.id,lat:e.baidu_lat,lng:e.baidu_lng,name:e.name}   }
     end
@@ -44,7 +44,6 @@ class StationsController < ApplicationController
   # POST /stations.json
   def create
     @station = Station.new(station_params)
-
     respond_to do |format|
       if @station.save
         format.html { redirect_to @station, notice: 'Station was successfully created.' }
@@ -64,6 +63,7 @@ class StationsController < ApplicationController
   # PATCH/PUT /stations/1.json
   def update
     respond_to do |format|
+
       if @station.update(station_params)
         format.html { redirect_to @station, notice: 'Station was successfully updated.' }
         format.json { head :no_content }
@@ -92,6 +92,6 @@ class StationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def station_params
-      params.require(:station).permit(:name, :lat, :lng, :description, :markup)
+      params.require(:station).permit(:name, :lat, :lng,:baidu_lat,:baidu_lng, :description, :markup,:pos_type)
     end
 end

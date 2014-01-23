@@ -9,12 +9,12 @@
   <div class="col-xs-3">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        登录
+        节点搜索
       </div>
 
       <div class="panel-body">
-        <%= link_to "新建节点地址", stations_path,remote:true %>
 
+        <%= text_field_tag "name_search" ,nil,class:"form-control",data:{autocomplete_source:stations_search_path } %>
 
       </div>
 
@@ -72,3 +72,8 @@
     var idata = <%= raw @stations.to_json %>;
     </script>
   <% end %>
+
+<style type="text/css" media="all">
+  .ui-autocomplete { height: 500px; overflow-y: scroll; overflow-x: hidden;}
+</style>
+

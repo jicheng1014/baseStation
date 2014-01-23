@@ -11,9 +11,15 @@ class StationsController < ApplicationController
     end
   end
 
+  def search_by_name
+    @station = Station.find_by name: params[:name]
+
+    render json: @station
+  end
+
   def search
-    @stations = Station.all
-    render json: @stations
+    @stations =  Station.order(:name).where("name like ?","%#{params[:term]}%")
+    render json: @stations.map { |e| e.name }
   end
 
   # GET /stations/1

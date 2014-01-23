@@ -16,7 +16,11 @@ click = (e)->
   point = new BMap.Point(e.point.lng, e.point.lat)
   marker = new BMap.Marker(point)
   map.addOverlay(marker)
-  infoWindow = new BMap.InfoWindow("<button onclick='$(\"#myModal\").modal()' class='add_modal'>新建节点</button>")
+  infoWindow = new BMap.InfoWindow """
+    <button onclick='$("#myModal").modal();$("#select_pos_type_list").val("baidu_geo");change($("#select_pos_type_list"));' class='add_modal'>新建节点</button>
+
+
+    """
   marker.openInfoWindow(infoWindow)
   infoWindow.enableCloseOnClick()
   infoWindow.addEventListener("close",(type,t,point) ->

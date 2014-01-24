@@ -14,7 +14,10 @@
 
       <div class="panel-body">
 
+        <p>基站名搜索</p>
         <%= text_field_tag "name_search" ,nil,class:"form-control",data:{autocomplete_source:stations_search_path } %>
+        <p>地名搜索</p>
+        <%= text_field_tag "suggest_pos",nil,class:"form-control" %>
 
       </div>
 
@@ -24,7 +27,7 @@
        屏幕处节点 
       </div>
 
-      <div class="panel-body" style="height:340px;overflow:auto" id="station_list">
+      <div class="panel-body" style="height:300px;overflow:auto" id="station_list">
 
       </div>
 

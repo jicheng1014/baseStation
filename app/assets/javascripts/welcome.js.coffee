@@ -109,7 +109,18 @@ ready = ->
         window.map.addOverlay(circle)
       )
   )
- 
-  
+
+  ac = new BMap.Autocomplete 
+    input: "suggest_pos",
+    location: "重庆市"
+  ac.addEventListener("onconfirm",(e)->
+    _value = e.item.value
+    myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business
+    local = new BMap.LocalSearch(window.map,{
+      onSearchComplete: ()->
+        window.map.centerAndZoom(local.getResults().getPoi(0).point,17)
+    })
+    local.search myValue
+  )
 
 $(document).ready(ready)

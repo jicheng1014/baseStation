@@ -59,8 +59,17 @@ show_stations_data = (stations) ->
       marker = new BMap.Marker(point)
       label = new BMap.Label(node.name, {offset: new BMap.Size(20, 4)})
       marker.setLabel(label)
-      window.map.addOverlay(marker)
+      
+      # add marker's menu (right click) 
+      contextMenu = new BMap.ContextMenu()
+      contextMenu.addItem(new BMap.MenuItem("查看 #{node.name} 详情", () ->
+        $.get("stations/#{node.id}",(data)->
+          raw data 
+        )
 
+      , 100))
+      marker.addContextMenu(contextMenu)
+      window.map.addOverlay(marker)
 
 load_points = ->
   bounds = window.map.getBounds()
@@ -90,7 +99,7 @@ ready = ->
   window.map.centerAndZoom(new BMap.Point(106.539,29.548),13)
   window.map.addEventListener("moveend",load_points)
   window.map.addEventListener("zoomend",load_points)
-  window.map.addEventListener("click", click);
+  window.map.addEventListener("click", click)
   
   load_points()
 

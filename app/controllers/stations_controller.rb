@@ -26,8 +26,8 @@ class StationsController < ApplicationController
   # GET /stations/1.json
   def show
     respond_to do |format|
-     format.html
      format.js
+     format.html
     end
   end
 

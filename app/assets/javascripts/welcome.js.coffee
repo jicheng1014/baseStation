@@ -46,7 +46,7 @@ build_list=(stations)->
 # 将传进来的station参数显示在地图上以及新建右侧的节点信息
 show_stations_data = (stations) -> 
   window.map.clearOverlays()
-  if stations.length>150 
+  if stations.length>100 
     point = window.map.getCenter()     
     label = new BMap.Label("地图间有#{stations.length}个点，超出限制，放大地图后可查看")
     label.setPosition(point)
@@ -64,10 +64,10 @@ show_stations_data = (stations) ->
       contextMenu = new BMap.ContextMenu()
       contextMenu.addItem(new BMap.MenuItem("查看 #{node.name} 详情", () ->
         $.get("stations/#{node.id}",(data)->
-          raw data 
+          raw data # run the js code which is ajax callback
         )
 
-      , 100))
+      , 200))
       marker.addContextMenu(contextMenu)
       window.map.addOverlay(marker)
 
@@ -112,9 +112,7 @@ ready = ->
         window.map.setCenter(new BMap.Point(obj.baidu_lng,obj.baidu_lat))
         node = obj
         point = new BMap.Point(node.baidu_lng,node.baidu_lat)
-
         circle = new BMap.Circle(point,50);
-
         window.map.addOverlay(circle)
       )
   )

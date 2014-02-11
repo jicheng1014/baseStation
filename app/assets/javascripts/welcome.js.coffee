@@ -55,21 +55,21 @@ show_stations_data = (stations) ->
     build_list(stations)
     window.map.addOverlay(circle)
     for node in stations 
-      point = new BMap.Point(node.lng,node.lat)
-      marker = new BMap.Marker(point)
-      label = new BMap.Label(node.name, {offset: new BMap.Size(20, 4)})
-      marker.setLabel(label)
-      
-      # add marker's menu (right click) 
-      contextMenu = new BMap.ContextMenu()
-      contextMenu.addItem(new BMap.MenuItem("查看 #{node.name} 详情", () ->
-        $.get("stations/#{node.id}",(data)->
-          raw data # run the js code which is ajax callback
-        )
+      do (node) ->
+        point = new BMap.Point(node.lng,node.lat)
+        marker = new BMap.Marker(point)
+        label = new BMap.Label(node.name, {offset: new BMap.Size(20, 4)})
+        marker.setLabel(label)
+        
+        contextMenu = new BMap.ContextMenu()
+        contextMenu.addItem(new BMap.MenuItem("查看 #{node.name} #{node.id} 详情", () ->
+          $.get("stations/#{node.id}",(data)->
+            eval data # run the js code which is ajax callback
+          )
 
-      , 200))
-      marker.addContextMenu(contextMenu)
-      window.map.addOverlay(marker)
+        , 200))
+        window.map.addOverlay(marker)
+        marker.addContextMenu(contextMenu)
 
 load_points = ->
   bounds = window.map.getBounds()

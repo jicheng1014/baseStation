@@ -6,7 +6,7 @@
 
 window.map = null
 circle = null
-
+window.start_point = null
 # 单击地图的事件实现函数
 click = (e)-> 
   # 先把值读给modal里的坐标
@@ -19,7 +19,9 @@ click = (e)->
   infoWindow = new BMap.InfoWindow """
     <button onclick='$("#myModal").modal();$("#select_pos_type_list").val("baidu_geo");change($("#select_pos_type_list"));' class='add_modal'>新建节点</button>
 
-
+    <p>此处百度坐标：纬度#{e.point.lat}  经度#{e.point.lng} </p>
+    
+    <p><button onclick='window.start_point = "#{e.point.lat}-#{e.point.lng}";alert("已设置起点")'>设置此处为起点</button></p>
     """
   marker.openInfoWindow(infoWindow)
   infoWindow.enableCloseOnClick()
@@ -62,12 +64,24 @@ show_stations_data = (stations) ->
         marker.setLabel(label)
         
         contextMenu = new BMap.ContextMenu()
-        contextMenu.addItem(new BMap.MenuItem("查看 #{node.name} #{node.id} 详情", () ->
+        contextMenu.addItem(new BMap.MenuItem("查看 #{node.name} 详情", () ->
           $.get("stations/#{node.id}",(data)->
-            eval data # run the js code which is ajax callback
+            eval data # run the js code which ajax callback
           )
 
         , 200))
+        contextMenu.addItem(new BMap.MenuItem("导航到此处",(point)->
+          if(window.start_point ==null)
+            alert("未设置起点，无法导航")
+          else
+            tmp = window.start_point.split "-"
+            start = new BMap.Point(tmp[1], tmp[0])     
+            end = "#{point.lat}-#{point.lng}"
+            
+            window.open("stations/geolocation?start=#{window.start_point}&end=#{end}")
+            transit = new BMap.DrivingRoute(window.map,{renderOptions:{map: map, autoViewport: true}})
+
+        ,200))
         window.map.addOverlay(marker)
         marker.addContextMenu(contextMenu)
 

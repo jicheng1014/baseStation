@@ -1,6 +1,13 @@
 class StationsController < ApplicationController
   before_action :set_station, only: [:show, :edit, :update, :destroy]
 
+
+  def geolocation
+    @start = params["start"]
+    @end = params["end"]
+  end
+
+
   # GET /stations
   # GET /stations.json
   def index
@@ -65,7 +72,9 @@ class StationsController < ApplicationController
     respond_to do |format|
 
       if @station.update(station_params)
+        format.js 
         format.html { redirect_to @station, notice: 'Station was successfully updated.' }
+
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

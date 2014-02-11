@@ -1,0 +1,39 @@
+<style type="text/css" media="all">
+  .row {
+    height:100%;
+  } 
+  #map {
+    height:100%;
+    background:red;
+  }
+</style>
+
+
+<div class="row">
+  <div id="map" class="col-sm-8"></div>
+  <div id="panel" class="col-sm-4">
+    
+  </div>
+</div>
+
+
+
+<% content_for :header do %>
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    var map = new BMap.Map("map");  
+    map.centerAndZoom(new BMap.Point(106.539, 29.548), 13);
+    var transit = new BMap.DrivingRoute(map, {
+      renderOptions: {
+        map: map,
+        panel: "panel",
+        enableDragging : true //起终点可tr进行拖拽
+      },  
+    });
+    var start =new BMap.Point(<%= @start.split("-")[1] %>,<%= @start.split('-')[0] %>);
+    var end =new BMap.Point(<%= @end.split("-")[1] %>,<%= @end.split('-')[0] %>);
+
+    transit.search(start,end);
+  });
+  </script>
+<% end %>

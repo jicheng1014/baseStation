@@ -70,6 +70,13 @@ show_stations_data = (stations) ->
           )
 
         , 200))
+
+        contextMenu.addItem(new BMap.MenuItem("删除 #{node.name} 节点", () ->
+          if confirm('确定要删除此节点？')
+            $.post("stations/#{node.id}",{"_method":"delete"},()->alert("操作成功，移动地图获得最新数据"))
+
+        , 200))
+
         contextMenu.addItem(new BMap.MenuItem("导航到此处",(point)->
           if(window.start_point ==null)
             alert("未设置起点，无法导航")

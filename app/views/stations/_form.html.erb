@@ -80,7 +80,11 @@
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit %>
-
+      
+      <% if @station.new_record? == false %>
+        <%= link_to "删除此节点", @station,method: :delete, remote: true, data:{confirm: "你确定要删除这个节点么？"} %>
+        
+      <% end %>
 
     </div>
   </div>

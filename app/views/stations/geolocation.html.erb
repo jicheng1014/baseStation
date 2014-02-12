@@ -4,7 +4,6 @@
   } 
   #map {
     height:100%;
-    background:red;
   }
 </style>
 
@@ -23,6 +22,12 @@
   $(function(){
     var map = new BMap.Map("map");  
     map.centerAndZoom(new BMap.Point(106.539, 29.548), 13);
+    map.addControl(new BMap.NavigationControl());
+    map.addControl(new BMap.ScaleControl());
+    map.addControl(new BMap.OverviewMapControl());
+    map.enableScrollWheelZoom(); 
+    map.addControl(new BMap.MapTypeControl()); 
+ 
     var transit = new BMap.DrivingRoute(map, {
       renderOptions: {
         map: map,

@@ -1,6 +1,6 @@
-$("#new_station").remove();
 <% if @station.errors.any? %>
-  $("#new_link").after('<%= j render 'form' %>') 
+  alert("需准确填写数据，保存失败");
 <% else %>  
-$("#new_link").show();
+  $("#myModal").modal('hide');
+  alert("新建成功，挪动地图后即可呈现");
 <% end %>

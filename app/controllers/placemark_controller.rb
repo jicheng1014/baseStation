@@ -1,4 +1,10 @@
 class PlacemarkController < ApplicationController
+
+  def index
+    
+  end
+
+
   def import
     doc= Nokogiri::XML(File.open("/home/atpking/Desktop/google.kml"))
     list = doc.css "Placemark"

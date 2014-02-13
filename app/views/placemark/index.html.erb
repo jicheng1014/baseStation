@@ -1,0 +1,11 @@
+<p>目前本系统支持Google地球的KML坐标格式批量导入</p>
+<ul>
+  <li>需有节点placemark</li>
+  <li>其子节点name 对应基站名，description对应基站描述</li>
+  <li>字节点Point存放具体坐标</li>
+</ul>
+
+<p>上传文件</p>
+<%= form_tag({action: :create},multipart: true) do %>
+  <%= file_field_tag 'kml' %>
+<% end %>

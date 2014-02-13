@@ -5,6 +5,7 @@ BaseStation::Application.routes.draw do
   get "stations/search_by_name"
   get "stations/geolocation"
   resources :stations
+  resources :placemark
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

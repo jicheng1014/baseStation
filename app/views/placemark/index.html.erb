@@ -8,4 +8,6 @@
 <p>上传文件</p>
 <%= form_tag({action: :create},multipart: true) do %>
   <%= file_field_tag 'kml' %>
+  <%= submit_tag '确认' %>
+
 <% end %>

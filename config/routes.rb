@@ -1,5 +1,5 @@
 BaseStation::Application.routes.draw do
-  get "placemark/import"
+  get "placemark/import" , :as => :import
   get "welcome/index"
   get "stations/search"
   get "stations/search_by_name"

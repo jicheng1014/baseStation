@@ -5,8 +5,18 @@ class PlacemarkController < ApplicationController
   end
 
 
+  def create
+    updated_io = params[:kml]
+    File.open(Rails.root.join('public','uploads','google.kml'),'wb') do |file|
+      file.write(updated_io.read)
+    end
+    redirect_to  import_path
+  end
+
+
+
   def import
-    doc= Nokogiri::XML(File.open("/home/atpking/Desktop/google.kml"))
+    doc= Nokogiri::XML(Rails.root.join('public','uploads','google.kml'))
     list = doc.css "Placemark"
     @stations = []
 
